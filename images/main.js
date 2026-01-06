@@ -1,7 +1,7 @@
 (function ($) {
 
-	var $body = $('body');
-	var setting = {
+	const $body = $('body');
+	const setting = {
 
 		activeCate: true,    //현재카테고리위치 표기 
 		autoLink: true,      //댓글,방명록 자동링크
@@ -15,7 +15,7 @@
 
 	}
 
-	var initObj = {
+	const initObj = {
 		targetElem: {
 			ttCate: $('.tt-cate'),        //카테고리영역에 클래스추가
 			curCate: $('.cur-cate'),      //현재카테고리표기에 이용
@@ -29,7 +29,7 @@
 		}
 	};
 
-	var funcObj = {
+	const funcObj = {
 
 		initFunc: function () {
 			//카테고리초기화
@@ -216,7 +216,7 @@
 
 	};
 
-	var thumbObj = {  //이미지 추출을 위한
+	const thumbObj = {  //이미지 추출을 위한
 		sizing: {
 
 			//유투브: 0(480x360), 1~3(120x90), hqdefault(480x360), mqdefault(320x180), default(120x90) 
@@ -534,9 +534,6 @@
 		$('.tt-has-active').addClass('open');
 		$('.tt-cate-toggle').on('click', function () {
 			$(this).closest('.tt-has-sub').toggleClass('open');
-			setTimeout(function () {
-				myScroll.refresh();
-			}, 500);
 		});
 
 		//폼액션
@@ -636,7 +633,7 @@
 		lastScrollTop = st;
 	};
 
-	$(window).load(function () {
+	$(window).on('load', function () {
 		funcObj.imageRaito($('.ratio-fixed .t-photo').find('img'));
 		if ($('#tt-body-page').length) {
 			funcObj.imageRaito($('.dual').find('img'));

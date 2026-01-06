@@ -538,27 +538,20 @@ hr.ng-margin {
     border-radius: 0;
     max-height: 0;
     overflow: hidden;
-    -webkit-transform: perspective(400) rotate3d(1, 0, 0, -90deg);
-    -webkit-transform-origin: 50% 0;
-    -webkit-transition: 350ms;
+    transform: perspective(400) rotate3d(1, 0, 0, -90deg);
+    transform-origin: 50% 0;
     transition: 350ms;
-}
-
-.no-csstransitions .admin-menu .dropdown-menu {
-    display: none;
 }
 
 .admin-menu.open>.dropdown-menu {
     display: block;
     max-height: 1000px;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    -webkit-transform: perspective(400) rotate3d(0, 0, 0, 0);
+    transform: perspective(400) rotate3d(0, 0, 0, 0);
 }
 
 .admin-menu .dropdown-menu li {
     position: relative;
-    -webkit-transition: box-shadow .2s ease-out;
     transition: box-shadow .2s ease-out;
 }
 
@@ -687,7 +680,7 @@ hr.ng-margin {
 
 
 /* 모달 검색
--------------------------------------------------------------------------- */
+--------------------------------------------------------------------------- */
 .bg-close {
     position: absolute;
     left: 0;
@@ -704,9 +697,7 @@ hr.ng-margin {
     height: 0;
     overflow: hidden;
     z-index: 1100;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transition: height .3s;
     transition: height .3s;
 }
 
@@ -724,7 +715,6 @@ hr.ng-margin {
 @media (min-width: 992px) {
     #tt-search {
         margin-top: 40px;
-        z-index: 900;
         z-index: 920;
     }
 
@@ -814,15 +804,7 @@ hr.ng-margin {
         color: #fff;
     }
 
-    #search-input:-moz-placeholder {
-        color: #fff;
-    }
-
-    #search-input::-moz-placeholder {
-        color: #fff;
-    }
-
-    #search-input:-ms-input-placeholder {
+    #search-input::placeholder {
         color: #fff;
     }
 }
@@ -848,8 +830,7 @@ hr.ng-margin {
     color: #999;
 }
 
-#search-tag a:before,
-#search-tag a>.ie-before {
+#search-tag a:before {
     position: absolute;
     left: 0;
     top: 0;
@@ -888,7 +869,7 @@ hr.ng-margin {
 
 
 /* 카테고리공통 클래스
--------------------------------------------------------------------------- */
+--------------------------------------------------------------------------- */
 .tt-cate ul {
     margin: 0;
     padding: 0;
@@ -912,8 +893,7 @@ hr.ng-margin {
     border-bottom: 1px solid #f3f3f3;
 }
 
-.tt-cate li a.active:after,
-.tt-cate li a.active>.ie-after {
+.tt-cate li a.active:after {
     content: "\e206" !important;
     position: absolute;
     top: 50%;
@@ -940,8 +920,7 @@ hr.ng-margin {
     position: relative;
 }
 
-.tt-cate .tt-ul-three a:before,
-.tt-cate .tt-ul-three a>.ie-before {
+.tt-cate .tt-ul-three a:before {
     position: absolute;
     left: -25px;
     top: 0;
@@ -992,14 +971,13 @@ hr.ng-margin {
     content: "\e60e"
 }
 
-.tt-cate-collapse .tt-has-sub>a.active:after,
-.tt-cate-collapse .tt-has-sub>a.active>.ie-after {
+.tt-cate-collapse .tt-has-sub>a.active:after {
     display: none
 }
 
 
 /* 모달 카테고리확장
--------------------------------------------------------------------------- */
+--------------------------------------------------------------------------- */
 #expand-wrap {
     position: fixed;
     top: 0;
@@ -1008,9 +986,7 @@ hr.ng-margin {
     height: 0;
     z-index: 1200;
     background-color: rgba(0, 0, 0, 0);
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transition: background-color .3s, height 0s .3s;
     transition: background-color .3s, height 0s .3s;
 }
 
@@ -1018,13 +994,11 @@ hr.ng-margin {
     bottom: 0;
     height: 100%;
     background-color: rgba(0, 0, 0, .8);
-    -webkit-transition: background-color .3s;
     transition: background-color .3s;
 }
 
 #expand-wrap .bg-close {
     z-index: 1210;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
@@ -1035,25 +1009,15 @@ hr.ng-margin {
     height: 100%;
     width: 320px;
     background: rgb(105, 155, 200);
-    background: -moz-radial-gradient(top left, ellipse cover, rgba(105, 155, 200, 1) 0%, rgba(181, 197, 216, 1) 57%);
-    background: -webkit-gradient(radial, top left, 0px, top left, 100%, color-stop(0%, rgba(105, 155, 200, 1)), color-stop(57%, rgba(181, 197, 216, 1)));
-    background: -webkit-radial-gradient(top left, ellipse cover, rgba(105, 155, 200, 1) 0%, rgba(181, 197, 216, 1) 57%);
-    background: -o-radial-gradient(top left, ellipse cover, rgba(105, 155, 200, 1) 0%, rgba(181, 197, 216, 1) 57%);
-    background: -ms-radial-gradient(top left, ellipse cover, rgba(105, 155, 200, 1) 0%, rgba(181, 197, 216, 1) 57%);
     background: radial-gradient(ellipse at top left, rgba(105, 155, 200, 1) 0%, rgba(181, 197, 216, 1) 57%);
     z-index: 1220;
-    -webkit-transform: translateX(-100%);
-    -ms-transform: translateX(-100%);
     transform: translateX(-100%);
-    -webkit-transition: all .3s ease-out;
     transition: all .3s ease-out;
+    overflow: hidden;
 }
 
 #expand-wrap.on #expand-menu {
-    -webkit-box-shadow: 2px 0 8px rgba(0, 0, 0, .7);
     box-shadow: 2px 0 8px rgba(0, 0, 0, .7);
-    -webkit-transform: translateX(0);
-    -ms-transform: translateX(0);
     transform: translateX(0);
 }
 
