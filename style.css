@@ -725,18 +725,6 @@ hr.ng-margin {
     #tt-search {
         margin-top: 40px;
         z-index: 900;
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, rgba(0, 0, 0, 0.95)), color-stop(60%, rgba(0, 0, 0, 0.85)), to(transparent));
-        background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.95) 20%, rgba(0, 0, 0, 0.85) 60%, transparent);
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 20%, rgba(0, 0, 0, 0.85) 60%, transparent);
-    }
-
-    .no-cssanimations #tt-search {
-        background: url(./images/bg_gb.png) repeat-x;
-    }
-
-    .tt-search-inner {
-        max-width: 1000px;
-        margin: 30px auto 0;
         z-index: 920;
     }
 
@@ -2321,7 +2309,7 @@ hr.ng-margin {
         left: 18px;
         width: 30px;
         height: 11px;
-        background: url(images/reply_bul.png) 0px 0px no-repeat;
+        background: url(images/reply_bul.svg) 0px 0px no-repeat;
         z-index: 10;
     }
 
@@ -2359,17 +2347,17 @@ hr.ng-margin {
 /* 회원사진 */
 .rp_general .blogicon,
 .guest_general .blogicon {
-    background: url(images/anonymous_48.png) no-repeat center;
+    background: url(images/anonymous_48.svg) no-repeat center;
 }
 
 .rp_secret .blogicon,
 .guest_secret .blogicon {
-    background: url(images/secret_48.png) no-repeat center;
+    background: url(images/secret_48.svg) no-repeat center;
 }
 
 .rp_admin .blogicon,
 .guest_admin .blogicon {
-    background: url(images/admin_48.png) no-repeat center;
+    background: url(images/admin_48.svg) no-repeat center;
 }
 
 /* 관리자, 비밀글 이름 색상 */
