@@ -1828,3 +1828,13 @@ blockquote footer:before {
 .icon-exit:before {
     content: "\ea14"
 }
+
+.icon-sun:before {
+    content: "☀";
+    font-family: inherit;
+}
+
+.icon-moon:before {
+    content: "☾";
+    font-family: inherit;
+}

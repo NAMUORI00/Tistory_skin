@@ -1,6 +1,743 @@
 @charset "utf-8";
 
-/* 
+/* ============================================================================
+   CSS Custom Properties (Theme Variables)
+   ============================================================================ */
+
+:root,
+[data-theme="light"] {
+    /* 배경색 */
+    --bg-body: #f8f8f8;
+    --bg-content: #fff;
+    --bg-sidebar: #f8f8f8;
+    --bg-header: #333;
+    --bg-header-mobile: rgba(255, 255, 255, .9);
+    --bg-card: #fafafa;
+    --bg-hover: #f5f5f5;
+    --bg-input: #fff;
+    --bg-code: #f9f2f4;
+    --bg-table-stripe: #f9f9f9;
+
+    /* 텍스트색 */
+    --text-primary: #555;
+    --text-secondary: #777;
+    --text-muted: #999;
+    --text-heading: #222;
+    --text-link: #222;
+    --text-inverse: #fff;
+    --text-code: #c7254e;
+
+    /* 강조색 */
+    --color-primary: #81a9db;
+    --color-success: #91CCAA;
+    --color-warning: #f0ad4e;
+    --color-danger: #FC9F8A;
+    --color-info: #5bc0de;
+
+    /* 테두리색 */
+    --border-color: #dedede;
+    --border-light: #eee;
+    --border-dark: #ccc;
+
+    /* 그림자 */
+    --shadow-dropdown: rgba(0, 0, 0, .175);
+    --shadow-layout: #eee;
+}
+
+[data-theme="dark"] {
+    /* 배경색 */
+    --bg-body: #1a1a1a;
+    --bg-content: #242424;
+    --bg-sidebar: #1e1e1e;
+    --bg-header: #0d0d0d;
+    --bg-header-mobile: rgba(30, 30, 30, .95);
+    --bg-card: #2d2d2d;
+    --bg-hover: #333;
+    --bg-input: #2a2a2a;
+    --bg-code: #3d2936;
+    --bg-table-stripe: #2a2a2a;
+
+    /* 텍스트색 */
+    --text-primary: #d0d0d0;
+    --text-secondary: #a0a0a0;
+    --text-muted: #707070;
+    --text-heading: #f0f0f0;
+    --text-link: #e0e0e0;
+    --text-inverse: #fff;
+    --text-code: #e06c75;
+
+    /* 강조색 */
+    --color-primary: #8fb5e3;
+    --color-success: #a3d4b8;
+    --color-warning: #f5be6a;
+    --color-danger: #ffb3a3;
+    --color-info: #6fcce8;
+
+    /* 테두리색 */
+    --border-color: #3a3a3a;
+    --border-light: #333;
+    --border-dark: #555;
+
+    /* 그림자 */
+    --shadow-dropdown: rgba(0, 0, 0, .5);
+    --shadow-layout: #111;
+}
+
+/* 시스템 설정 폴백 (JS 비활성화 시) */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        /* 배경색 */
+        --bg-body: #1a1a1a;
+        --bg-content: #242424;
+        --bg-sidebar: #1e1e1e;
+        --bg-header: #0d0d0d;
+        --bg-header-mobile: rgba(30, 30, 30, .95);
+        --bg-card: #2d2d2d;
+        --bg-hover: #333;
+        --bg-input: #2a2a2a;
+        --bg-code: #3d2936;
+        --bg-table-stripe: #2a2a2a;
+
+        /* 텍스트색 */
+        --text-primary: #d0d0d0;
+        --text-secondary: #a0a0a0;
+        --text-muted: #707070;
+        --text-heading: #f0f0f0;
+        --text-link: #e0e0e0;
+        --text-inverse: #fff;
+        --text-code: #e06c75;
+
+        /* 강조색 */
+        --color-primary: #8fb5e3;
+        --color-success: #a3d4b8;
+        --color-warning: #f5be6a;
+        --color-danger: #ffb3a3;
+        --color-info: #6fcce8;
+
+        /* 테두리색 */
+        --border-color: #3a3a3a;
+        --border-light: #333;
+        --border-dark: #555;
+
+        /* 그림자 */
+        --shadow-dropdown: rgba(0, 0, 0, .5);
+        --shadow-layout: #111;
+    }
+}
+
+/* ============================================================================
+   Theme Toggle Button
+   ============================================================================ */
+
+.theme-toggle {
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 50px;
+    text-align: center;
+    color: inherit;
+    vertical-align: top;
+}
+
+@media (min-width: 992px) {
+    .theme-toggle {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        color: var(--text-muted);
+    }
+
+    .theme-toggle:hover {
+        color: var(--text-inverse);
+    }
+}
+
+/* 라이트 모드: 달 아이콘 표시 (다크모드로 전환 가능) */
+.theme-toggle .icon-sun {
+    display: none;
+}
+
+.theme-toggle .icon-moon {
+    display: inline;
+}
+
+/* 다크 모드: 해 아이콘 표시 (라이트모드로 전환 가능) */
+[data-theme="dark"] .theme-toggle .icon-sun {
+    display: inline;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    display: none;
+}
+
+/* 시스템 다크모드 폴백 */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .icon-sun {
+        display: inline;
+    }
+
+    :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+        display: none;
+    }
+}
+
+/* ============================================================================
+   Dark Mode Special Handling
+   ============================================================================ */
+
+/* 코드 블록 다크모드 스타일 */
+[data-theme="dark"] code {
+    background-color: var(--bg-code);
+    color: var(--text-code);
+}
+
+[data-theme="dark"] pre {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .hljs,
+[data-theme="dark"] .highlight {
+    background-color: var(--bg-card);
+}
+
+/* 이미지 밝기 조절 (다크모드에서 눈부심 방지) */
+[data-theme="dark"] .thumbnail img,
+[data-theme="dark"] .t-photo img {
+    opacity: 0.92;
+}
+
+[data-theme="dark"] .thumbnail img:hover,
+[data-theme="dark"] .t-photo img:hover {
+    opacity: 1;
+}
+
+/* 테이블 다크모드 */
+[data-theme="dark"] table {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] th {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] td {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] tr:nth-child(even) {
+    background-color: var(--bg-table-stripe);
+}
+
+/* 인용문 다크모드 */
+[data-theme="dark"] blockquote {
+    border-left-color: var(--color-primary);
+    background-color: var(--bg-card);
+}
+
+/* 입력 필드 다크모드 */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: var(--text-muted);
+}
+
+/* 배경 이미지 제거 (육각형 패턴) */
+@media (min-width: 992px) {
+    [data-theme="dark"] body {
+        background-image: none;
+    }
+}
+
+/* 박스 섀도우 다크모드 조정 */
+[data-theme="dark"] .admin-menu .dropdown-menu li:first-child,
+[data-theme="dark"] .expand-visitor,
+[data-theme="dark"] .admin-menu .link-blogger:hover {
+    box-shadow: inset 0 0 80px 0 rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] #search-tag a:hover {
+    box-shadow: inset 0 0 80px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 그래디언트 다크모드 조정 */
+[data-theme="dark"] .expand-admin {
+    background: linear-gradient(rgba(36, 36, 36, .6), rgba(36, 36, 36, 1));
+}
+
+[data-theme="dark"] .btn-post-config {
+    text-shadow: none;
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] .btn-cmt,
+[data-theme="dark"] .btn-guest {
+    text-shadow: none;
+    background: var(--bg-card);
+    box-shadow: none;
+}
+
+/* 모달/확장 영역 다크모드 */
+[data-theme="dark"] .expand-tt-cate {
+    background-color: var(--bg-content);
+}
+
+[data-theme="dark"] .expand-visitor {
+    border-bottom-color: rgba(255, 255, 255, .2);
+}
+
+[data-theme="dark"] .visitor-txt {
+    background-color: rgba(255, 255, 255, .2);
+}
+
+/* 관리자 드롭다운 다크모드 */
+[data-theme="dark"] .admin-menu .dropdown-menu li:first-child {
+    border-bottom-color: rgba(255, 255, 255, .2);
+}
+
+[data-theme="dark"] .admin-menu .link-blogger a {
+    border-bottom-color: rgba(255, 255, 255, .1);
+}
+
+[data-theme="dark"] .admin-menu .link-close {
+    border-top-color: rgba(255, 255, 255, .2);
+}
+
+/* 검색 영역 다크모드 */
+[data-theme="dark"] #search-tag li {
+    border-color: var(--border-color);
+}
+
+@media (min-width: 992px) {
+    [data-theme="dark"] #search-tag li {
+        border-color: var(--border-light);
+    }
+}
+
+/* 카테고리 확장 영역 다크모드 */
+[data-theme="dark"] .tt-cate li a {
+    border-bottom-color: var(--border-light);
+}
+
+/* 포스트 설정 버튼 다크모드 */
+[data-theme="dark"] .post-config li {
+    border-top-color: var(--border-light);
+}
+
+/* 댓글/방명록 다크모드 */
+[data-theme="dark"] .cng-list .dropdown-menu {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .cng-list .dropdown-menu li+li {
+    border-top-color: var(--border-color);
+}
+
+/* 체크박스 다크모드 */
+[data-theme="dark"] .checkbox input:checked+label .secret {
+    color: var(--text-muted);
+    background: var(--bg-content);
+}
+
+/* 페이지네이션 다크모드 */
+[data-theme="dark"] .pagination .no-more-prev,
+[data-theme="dark"] .pagination .no-more-next {
+    color: var(--text-muted) !important;
+}
+
+/* 사이드바 모듈 다크모드 */
+[data-theme="dark"] .module-category .tt-ul-three li {
+    border-top-color: var(--border-light);
+}
+
+/* 푸터 다크모드 */
+[data-theme="dark"] #site-footer {
+    background-color: var(--bg-content);
+    border-top-color: var(--border-color);
+}
+
+/* 리스트 영역 다크모드 */
+[data-theme="dark"] .list-row {
+    border-bottom-color: var(--border-light);
+}
+
+[data-theme="dark"] .list-head {
+    color: var(--text-heading);
+}
+
+[data-theme="dark"] .list-summary {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .list-meta .dt-published {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .has-object {
+    background: var(--bg-card);
+}
+
+/* 포스트 콘텐츠 다크모드 */
+[data-theme="dark"] .post-content {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .post-content h3,
+[data-theme="dark"] .post-content h4 {
+    color: var(--text-heading);
+}
+
+/* 캘린더 다크모드 */
+[data-theme="dark"] .tt-calendar {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .tt-calendar td {
+    background-color: var(--bg-content);
+}
+
+[data-theme="dark"] .tt-calendar .cal_week {
+    background-color: var(--bg-card);
+}
+
+/* 최근 글/댓글 모듈 다크모드 */
+[data-theme="dark"] .nav-recent>li>a {
+    border-bottom-color: var(--border-light);
+}
+
+/* 아카이브 모듈 다크모드 */
+[data-theme="dark"] .module-archive a {
+    border-color: var(--border-color);
+}
+
+/* 태그 모듈 다크모드 */
+[data-theme="dark"] .module-tag li a {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+/* 방명록 말풍선 다크모드 */
+[data-theme="dark"] #guest-list .speech:before,
+[data-theme="dark"] #guest-list .speech>.ie-before {
+    border-color: var(--border-color) var(--border-color) transparent transparent;
+}
+
+[data-theme="dark"] #guest-list .speech:after,
+[data-theme="dark"] #guest-list .speech>.ie-after {
+    border-color: var(--bg-card) var(--bg-card) transparent transparent;
+}
+
+[data-theme="dark"] #guest-list .reply-list .speech:before,
+[data-theme="dark"] #guest-list .reply-list .speech>.ie-before {
+    border-color: var(--border-color) transparent transparent var(--border-color);
+}
+
+[data-theme="dark"] #guest-list .reply-list .speech:after,
+[data-theme="dark"] #guest-list .reply-list .speech>.ie-after {
+    border-color: var(--bg-card) transparent transparent var(--bg-card);
+}
+
+/* 기타 요소 다크모드 */
+[data-theme="dark"] .action-trail {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .e-content {
+    color: var(--text-primary);
+}
+
+/* 카테고리의 다른글 다크모드 */
+[data-theme="dark"] div.another_category h4 a {
+    color: var(--text-heading) !important;
+}
+
+[data-theme="dark"] div.another_category .has-sub-alv:after,
+[data-theme="dark"] div.another_category .has-sub-alv>.ie-after {
+    color: var(--text-heading) !important;
+}
+
+[data-theme="dark"] div.another_category .lv-txt {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] div.another_category th a {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] div.another_category td {
+    color: var(--text-muted);
+}
+
+/* 링크 참조 다크모드 */
+[data-theme="dark"] .link-refer {
+    background-color: var(--bg-card);
+}
+
+/* 이미지 블록 다크모드 */
+[data-theme="dark"] .imageblock figcaption {
+    color: var(--text-secondary);
+}
+
+/* ============================================================================
+   1. 텍스트 번짐 현상 해결 (text-shadow 제거)
+   ============================================================================ */
+[data-theme="dark"] .module-visitor,
+[data-theme="dark"] #nav-footer a,
+[data-theme="dark"] .entry-tag a,
+[data-theme="dark"] .tt_more_preview_comments_text,
+[data-theme="dark"] .btn-post-config,
+[data-theme="dark"] .btn-cmt,
+[data-theme="dark"] .btn-guest,
+[data-theme="dark"] .nav-paging a,
+[data-theme="dark"] .another_category th a {
+    text-shadow: none !important;
+}
+
+/* ============================================================================
+   2. 보호글 모달 다크모드
+   ============================================================================ */
+[data-theme="dark"] .protected .media-wrap {
+    background-color: var(--bg-hover) !important;
+}
+
+[data-theme="dark"] .protected .media {
+    background-color: var(--bg-content) !important;
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .protected .media .icon {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .protected .media-heading,
+[data-theme="dark"] .protected .pt-msg {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .protected .pt-close {
+    color: var(--text-inverse) !important;
+}
+
+/* ============================================================================
+   3. 카테고리 리스트 (모바일 메뉴) 다크모드
+   ============================================================================ */
+[data-theme="dark"] #expand-menu {
+    background: var(--bg-sidebar);
+    background: linear-gradient(135deg, var(--bg-header) 0%, var(--bg-sidebar) 100%);
+}
+
+[data-theme="dark"] .expand-tt-cate {
+    background-color: var(--bg-content) !important;
+}
+
+[data-theme="dark"] .expand-tt-cate a {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .expand-tt-cate a.active {
+    color: var(--color-primary) !important;
+}
+
+[data-theme="dark"] .expand-top {
+    border-top-color: rgba(255, 255, 255, .2);
+    box-shadow: inset 0 0 80px 0 rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .expand-hd {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .expand-title {
+    color: var(--text-inverse);
+}
+
+[data-theme="dark"] .expand-profile {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .expand-tt-menu a {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .expand-tt-menu a:hover,
+[data-theme="dark"] .expand-tt-menu .active a {
+    color: var(--text-inverse);
+}
+
+@media (min-width: 992px) {
+    [data-theme="dark"] #expand-menu {
+        background: var(--bg-content);
+    }
+}
+
+/* 시스템 다크모드 폴백 스타일 */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) code {
+        background-color: var(--bg-code);
+        color: var(--text-code);
+    }
+
+    :root:not([data-theme="light"]) pre {
+        background-color: var(--bg-card);
+        border-color: var(--border-color);
+    }
+
+    :root:not([data-theme="light"]) .thumbnail img,
+    :root:not([data-theme="light"]) .t-photo img {
+        opacity: 0.92;
+    }
+
+    :root:not([data-theme="light"]) .thumbnail img:hover,
+    :root:not([data-theme="light"]) .t-photo img:hover {
+        opacity: 1;
+    }
+
+    :root:not([data-theme="light"]) blockquote {
+        border-left-color: var(--color-primary);
+        background-color: var(--bg-card);
+    }
+
+    :root:not([data-theme="light"]) input,
+    :root:not([data-theme="light"]) textarea,
+    :root:not([data-theme="light"]) select {
+        background-color: var(--bg-input);
+        color: var(--text-primary);
+        border-color: var(--border-color);
+    }
+
+    /* 배경 이미지 제거 폴백 */
+    @media (min-width: 992px) {
+        :root:not([data-theme="light"]) body {
+            background-image: none;
+        }
+    }
+
+    /* 박스 섀도우 폴백 */
+    :root:not([data-theme="light"]) .admin-menu .dropdown-menu li:first-child,
+    :root:not([data-theme="light"]) .expand-visitor,
+    :root:not([data-theme="light"]) .admin-menu .link-blogger:hover {
+        box-shadow: inset 0 0 80px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* 그래디언트 폴백 */
+    :root:not([data-theme="light"]) .expand-admin {
+        background: linear-gradient(rgba(36, 36, 36, .6), rgba(36, 36, 36, 1));
+    }
+
+    :root:not([data-theme="light"]) .btn-post-config,
+    :root:not([data-theme="light"]) .btn-cmt,
+    :root:not([data-theme="light"]) .btn-guest {
+        text-shadow: none;
+        background: var(--bg-card);
+        box-shadow: none;
+    }
+
+    /* 리스트 영역 폴백 */
+    :root:not([data-theme="light"]) .list-row {
+        border-bottom-color: var(--border-light);
+    }
+
+    :root:not([data-theme="light"]) .list-head {
+        color: var(--text-heading);
+    }
+
+    :root:not([data-theme="light"]) .list-summary {
+        color: var(--text-secondary);
+    }
+
+    :root:not([data-theme="light"]) .has-object {
+        background: var(--bg-card);
+    }
+
+    /* 포스트 콘텐츠 폴백 */
+    :root:not([data-theme="light"]) .post-content {
+        color: var(--text-primary);
+    }
+
+    :root:not([data-theme="light"]) .post-content h3,
+    :root:not([data-theme="light"]) .post-content h4 {
+        color: var(--text-heading);
+    }
+
+    /* 모듈 폴백 */
+    :root:not([data-theme="light"]) .module-tag li a {
+        background-color: var(--bg-card);
+        border-color: var(--border-color);
+    }
+
+    :root:not([data-theme="light"]) .module-archive a {
+        border-color: var(--border-color);
+    }
+
+    /* 텍스트 번짐 폴백 */
+    :root:not([data-theme="light"]) .module-visitor,
+    :root:not([data-theme="light"]) #nav-footer a,
+    :root:not([data-theme="light"]) .entry-tag a,
+    :root:not([data-theme="light"]) .nav-paging a,
+    :root:not([data-theme="light"]) .another_category th a {
+        text-shadow: none !important;
+    }
+
+    /* 보호글 모달 폴백 */
+    :root:not([data-theme="light"]) .protected .media-wrap {
+        background-color: var(--bg-hover) !important;
+    }
+
+    :root:not([data-theme="light"]) .protected .media {
+        background-color: var(--bg-content) !important;
+        border: 1px solid var(--border-color);
+    }
+
+    :root:not([data-theme="light"]) .protected .media .icon {
+        color: var(--text-muted) !important;
+    }
+
+    :root:not([data-theme="light"]) .protected .media-heading,
+    :root:not([data-theme="light"]) .protected .pt-msg {
+        color: var(--text-primary) !important;
+    }
+
+    /* 모바일 메뉴 폴백 */
+    :root:not([data-theme="light"]) #expand-menu {
+        background: var(--bg-sidebar);
+        background: linear-gradient(135deg, var(--bg-header) 0%, var(--bg-sidebar) 100%);
+    }
+
+    :root:not([data-theme="light"]) .expand-tt-cate {
+        background-color: var(--bg-content) !important;
+    }
+
+    :root:not([data-theme="light"]) .expand-tt-cate a {
+        color: var(--text-primary) !important;
+    }
+
+    @media (min-width: 992px) {
+        :root:not([data-theme="light"]) #expand-menu {
+            background: var(--bg-content);
+        }
+    }
+}
+
+/* ============================================================================
+   Original Theme Styles
+   ============================================================================ */
+
+/*
 Theme Name : CCZ-CROSS
 Theme URI : http://ccz-cross.tistory.com
 Autor : 흉내쟁이 (copycatz)
@@ -24,7 +761,8 @@ html {
 }
 
 body {
-    color: #555;
+    color: var(--text-primary);
+    background-color: var(--bg-body);
     line-height: 1.4;
     font-size: 16px;
     font-family: "Malgun Gothic", "맑은 고딕", "굴림", gulim, "돋움", dotum, Microsoft NeoGothic, Droid sans, sans-serif;
@@ -35,14 +773,14 @@ body {
 @media (min-width: 992px) {
     body {
         font-size: 14px;
-        background: #f8f8f8 url(images/bg.svg);
+        background: var(--bg-body) url(images/bg.svg);
     }
 }
 
 /* pre {margin: 0;}p {margin: 0 0 1em;}*/
 
 a {
-    color: #222;
+    color: var(--text-link);
     text-decoration: none
 }
 
@@ -73,7 +811,7 @@ div.another_category tr.current a,
 .autolink,
 .lv-one,
 .lv-two {
-    color: #81a9db !important
+    color: var(--color-primary) !important
 }
 
 .ci-bg,
@@ -87,7 +825,7 @@ div.another_category tr.current a,
 .imageblock>a[href*="attachment"]:focus:before,
 div.another_category tr.current a:before,
 div.another_category tr.current a>.ie-before {
-    background: #81a9db !important
+    background: var(--color-primary) !important
 }
 
 .ci-border,
@@ -104,14 +842,14 @@ div.another_category tr.current a>.ie-before {
 .tt-calendar .cal_click,
 a.tx-link,
 .lv-one {
-    border-color: #81a9db !important
+    border-color: var(--color-primary) !important
 }
 
 @media (min-width: 992px) {
 
     .brand,
     .lv-one {
-        background: #81a9db !important
+        background: var(--color-primary) !important
     }
 }
 
@@ -124,7 +862,7 @@ a.tx-link,
     left: 15px;
     font-size: 12px;
     font-weight: bold;
-    background-color: #fff;
+    background-color: var(--bg-content);
     z-index: 10000;
 }
 
@@ -145,8 +883,8 @@ a.tx-link,
     left: 0;
     width: 100%;
     line-height: 50px;
-    border-bottom: 1px solid #f8f8f8;
-    background-color: rgba(255, 255, 255, .9);
+    border-bottom: 1px solid var(--border-light);
+    background-color: var(--bg-header-mobile);
     z-index: 1000;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
@@ -159,7 +897,7 @@ a.tx-link,
         padding-left: 15px;
         padding-right: 15px;
         line-height: 40px;
-        background-color: #333;
+        background-color: var(--bg-header);
         border-bottom: 0;
         box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
         z-index: 9999;
@@ -174,17 +912,17 @@ a.tx-link,
 
 @media (min-width: 992px) {
     #main {
-        background-color: #f8f8f8;
+        background-color: var(--bg-sidebar);
         /* sidebar bgColor */
         overflow: hidden;
-        border-right: 1px solid #dedede;
-        box-shadow: -5px 0 5px #eee;
+        border-right: 1px solid var(--border-color);
+        box-shadow: -5px 0 5px var(--shadow-layout);
     }
 }
 
 @media (min-width: 1281px) {
     #main {
-        box-shadow: -5px 0 5px #eee, 5px 0 5px #eee;
+        box-shadow: -5px 0 5px var(--shadow-layout), 5px 0 5px var(--shadow-layout);
     }
 }
 
@@ -196,11 +934,11 @@ a.tx-link,
     #main-inner {
         margin-right: 320px;
         padding-top: 40px;
-        background-color: #fff;
+        background-color: var(--bg-content);
         /* content bgColor */
-        border-left: 1px solid #dedede;
-        border-right: 1px solid #dedede;
-        box-shadow: 5px 0 5px #eee;
+        border-left: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+        box-shadow: 5px 0 5px var(--shadow-layout);
     }
 }
 
@@ -237,8 +975,8 @@ a.tx-link,
 #site-footer {
     padding: 10px 15px;
     text-align: center;
-    background-color: #fff;
-    border-top: 1px solid #dedede;
+    background-color: var(--bg-content);
+    border-top: 1px solid var(--border-color);
 }
 
 @media (min-width: 992px) {
@@ -280,7 +1018,7 @@ hr.ng-margin {
     margin-top: 25px;
     margin-bottom: 25px;
     border: 0;
-    border-top: 1px solid #dedede;
+    border-top: 1px solid var(--border-color);
     padding: 0;
 }
 
@@ -354,7 +1092,7 @@ hr.ng-margin {
     #call-exmenu {
         position: relative;
         float: left;
-        background-color: #fafafa;
+        background-color: var(--bg-card);
     }
 
     #call-exmenu .icon-navbar {
@@ -365,15 +1103,15 @@ hr.ng-margin {
         padding-left: 3px;
     }
 
-    #call-exmenu.on .icon:before {
+    #call-exmenu.on .icon-angle-down:before {
         content: "\e60e";
     }
 }
 
 @media (min-width: 992px) {
     #call-exmenu {
-        color: #fff;
-        background-color: #111;
+        color: var(--text-inverse);
+        background-color: var(--bg-header);
     }
 }
 
@@ -477,7 +1215,7 @@ hr.ng-margin {
     position: relative;
     display: block;
     margin-left: 10px;
-    color: #b3b3b3;
+    color: var(--text-muted);
 }
 
 #tt-menu a:hover,
@@ -487,7 +1225,7 @@ hr.ng-margin {
 #tt-body-media #tt-menu .t_menu_medialog a,
 #tt-body-location #tt-menu .t_menu_location a,
 #tt-body-guestbook #tt-menu .t_menu_guestbook a {
-    color: #fff;
+    color: var(--text-inverse);
 }
 
 #tt-body-index #tt-menu .t_menu_home a:after,
@@ -502,7 +1240,7 @@ hr.ng-margin {
     bottom: 0;
     width: 100%;
     height: 2px;
-    background-color: #fff;
+    background-color: var(--text-inverse);
 }
 
 /* _admin-menu */
@@ -511,9 +1249,9 @@ hr.ng-margin {
     margin-left: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    color: #b3b3b3;
-    border-left: 1px solid #000;
-    border-right: 1px solid #000;
+    color: var(--text-muted);
+    border-left: 1px solid var(--border-dark);
+    border-right: 1px solid var(--border-dark);
 }
 
 #call-admin .icon {
@@ -522,18 +1260,18 @@ hr.ng-margin {
 
 #call-admin:hover,
 .admin-menu.open #call-admin {
-    color: #fff;
+    color: var(--text-inverse);
 }
 
 .admin-menu.open #call-admin {
-    background-color: #111;
+    background-color: var(--bg-header);
 }
 
 .admin-menu .dropdown-menu {
     display: block;
     width: 250px;
     line-height: 1.4;
-    background: #111;
+    background: var(--bg-header);
     border: 0;
     border-radius: 0;
     max-height: 0;
@@ -565,18 +1303,18 @@ hr.ng-margin {
 .blogger-photo img {
     width: 64px !important;
     height: 64px !important;
-    border: 3px solid #fff;
+    border: 3px solid var(--text-inverse);
     border-radius: 50%;
 }
 
 .blogger-name {
-    color: #fff;
+    color: var(--text-inverse);
     font-weight: bold;
 }
 
 .blogger-desc {
     margin: 0;
-    color: #b3b3b3;
+    color: var(--text-muted);
     font-size: .85em;
 }
 
@@ -585,15 +1323,15 @@ hr.ng-margin {
     right: 0;
     bottom: 0;
     padding: 2px 3px;
-    color: #fff;
+    color: var(--text-inverse);
     font-size: 11px;
-    background-color: #333 !important;
+    background-color: var(--bg-header) !important;
 }
 
 .admin-menu .link-blogger a,
 .admin-menu .link-blogger .icon {
     height: 35px;
-    color: #b3b3b3;
+    color: var(--text-muted);
     line-height: 35px;
 }
 
@@ -635,7 +1373,7 @@ hr.ng-margin {
 
 .admin-menu .link-blogger:hover a,
 .admin-menu .link-blogger:hover .icon {
-    color: #fff;
+    color: var(--text-inverse);
     background-color: transparent;
 }
 
@@ -669,12 +1407,12 @@ hr.ng-margin {
 @media (min-width: 992px) {
     #call-search {
         width: 40px;
-        color: #b3b3b3;
+        color: var(--text-muted);
     }
 
     #call-search.on {
-        color: #fff;
-        background-color: #111;
+        color: var(--text-inverse);
+        background-color: var(--bg-header);
     }
 }
 
@@ -731,8 +1469,8 @@ hr.ng-margin {
     padding-left: 50px;
     padding-right: 50px;
     line-height: 50px;
-    background-color: #fff;
-    border-bottom: 1px solid #ccc;
+    background-color: var(--bg-content);
+    border-bottom: 1px solid var(--border-dark);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
     z-index: 1130;
 }
@@ -741,7 +1479,7 @@ hr.ng-margin {
 .search-submit {
     position: absolute;
     top: 0;
-    color: #555;
+    color: var(--text-primary);
     width: 50px;
     height: 50px;
     line-height: inherit;
@@ -813,21 +1551,21 @@ hr.ng-margin {
     position: relative;
     width: 100%;
     max-height: 200px;
-    background-color: #f5f5f5;
+    background-color: var(--bg-hover);
     overflow: hidden;
     z-index: 1140;
 }
 
 #search-tag li {
     line-height: 49px;
-    border-bottom: 1px solid #dedede;
+    border-bottom: 1px solid var(--border-color);
 }
 
 #search-tag a {
     position: relative;
     display: block;
     padding-left: 50px;
-    color: #999;
+    color: var(--text-muted);
 }
 
 #search-tag a:before {
@@ -890,7 +1628,7 @@ hr.ng-margin {
     padding-left: 15px;
     padding-right: 15px;
     font-size: 1em;
-    border-bottom: 1px solid #f3f3f3;
+    border-bottom: 1px solid var(--border-light);
 }
 
 .tt-cate li a.active:after {
@@ -931,7 +1669,7 @@ hr.ng-margin {
 .tt-cate .tt-ul-three a {
     margin-left: 40px;
     padding-left: 0;
-    color: #777;
+    color: var(--text-secondary);
 }
 
 @media (min-width: 992px) {
@@ -962,12 +1700,12 @@ hr.ng-margin {
 }
 
 .tt-cate-collapse .tt-has-sub.open {
-    background-color: #f9f9f9;
+    background-color: var(--bg-table-stripe);
     height: auto;
     overflow: visible;
 }
 
-.tt-cate-collapse .tt-has-sub.open>.tt-cate-toggle .icon:before {
+.tt-cate-collapse .tt-has-sub.open>.tt-cate-toggle .icon-angle-down:before {
     content: "\e60e"
 }
 
@@ -1163,8 +1901,8 @@ hr.ng-margin {
 
 /* _expand-tt-cate */
 .expand-tt-cate {
-    background-color: #fff;
-    border-bottom: 1px solid #f3f3f3;
+    background-color: var(--bg-content);
+    border-bottom: 1px solid var(--border-light);
 }
 
 .expand-tt-cate .tt-ul {
@@ -1285,7 +2023,7 @@ hr.ng-margin {
 }
 
 .sub-info {
-    color: #b3b3b3;
+    color: var(--text-muted);
 }
 
 .sub-info .txt {
@@ -1761,7 +2499,7 @@ hr.ng-margin {
 }
 
 #localog .info a {
-    border-bottom: 1px dotted #dedede;
+    border-bottom: 1px dotted var(--border-color);
 }
 
 
@@ -1817,7 +2555,7 @@ hr.ng-margin {
     position: relative;
     margin-top: 10px;
     border: 0;
-    border-bottom: 1px solid #e1e4e5;
+    border-bottom: 1px solid var(--border-color);
     overflow: hidden;
 }
 
@@ -1840,7 +2578,7 @@ hr.ng-margin {
 .textbox label,
 .textboxs label,
 .checkbox label {
-    color: #999;
+    color: var(--text-muted);
     letter-spacing: -.5px;
     cursor: text;
 }
@@ -1871,7 +2609,7 @@ hr.ng-margin {
     width: 100%;
     height: auto;
     margin: 0;
-    color: #4a4a4a;
+    color: var(--text-primary);
     font-family: inherit;
     vertical-align: middle;
     line-height: normal;
@@ -1982,8 +2720,8 @@ hr.ng-margin {
     width: 100%;
     height: 70px;
     overflow: hidden;
-    border: 2px solid #e1e4e5;
-    background-color: #fafafa;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-card);
 }
 
 .write-form.active .textboxs {
@@ -2022,10 +2760,10 @@ hr.ng-margin {
 .submit-wrap .ccz-btn {
     width: 100%;
     height: 40px;
-    color: #fff;
+    color: var(--text-inverse);
     font-size: 1em;
     font-weight: bold;
-    background-color: #81a9db;
+    background-color: var(--color-primary);
     border: 0;
     border-radius: 0;
 }
@@ -2054,7 +2792,7 @@ hr.ng-margin {
 }
 
 .cng-list>li {
-    border-bottom: 1px solid #eaeaec;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .cng-container {
@@ -2067,10 +2805,10 @@ hr.ng-margin {
     position: absolute;
     left: 43px;
     top: 59px;
-    color: #aaa;
+    color: var(--text-muted);
     font-size: 18px;
     line-height: 0;
-    background-color: #fff;
+    background-color: var(--bg-content);
     border-radius: 28px;
 }
 
@@ -2101,13 +2839,13 @@ hr.ng-margin {
     top: 15px;
     width: 48px !important;
     height: 48px !important;
-    background-color: #fff;
+    background-color: var(--bg-content);
     border-radius: 50%;
-    box-shadow: -1px -1px 1px #fff, 1px 1px 1px #fff;
+    box-shadow: -1px -1px 1px var(--bg-content), 1px 1px 1px var(--bg-content);
 }
 
 .cng-list .dt-published {
-    color: #b3b3b3;
+    color: var(--text-muted);
     font-size: .85em;
 }
 
@@ -2129,9 +2867,9 @@ hr.ng-margin {
 .cng-list .write {
     margin-top: 10px;
     padding: 2px 5px;
-    color: #81a9db;
+    color: var(--color-primary);
     font-size: .95em;
-    background-color: #f5f5f5;
+    background-color: var(--bg-hover);
 }
 
 .cng-list .arrow-symbol {
@@ -2378,7 +3116,7 @@ hr.ng-margin {
 
 #guest-list .dt-published {
     margin-left: 0;
-    color: #777;
+    color: var(--text-secondary);
     font-size: .8em;
     vertical-align: middle;
 }
@@ -2412,8 +3150,8 @@ hr.ng-margin {
     font-size: .85em;
     line-height: 1.6;
     letter-spacing: -.5px;
-    background-color: #fafafa;
-    border: 1px solid #eaecec;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     border-top-left-radius: 0;
 }
@@ -2779,13 +3517,12 @@ hr.ng-margin {
     display: block;
     position: relative;
     padding: 7px 10px;
-    color: #777;
+    color: var(--text-secondary);
     font-weight: normal;
-    text-shadow: 1px 1px 0 #ffffff;
-    background: #f5f5f5;
-    background: linear-gradient(#ffffff, #f5f5f5);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f5f5f5', GradientType=0);
-    border: 1px solid #dedede;
+    text-shadow: 1px 1px 0 var(--bg-content);
+    background: var(--bg-hover);
+    background: linear-gradient(var(--bg-content), var(--bg-hover));
+    border: 1px solid var(--border-color);
 }
 
 .btn-post-config .icon {
@@ -2794,7 +3531,7 @@ hr.ng-margin {
     right: 10px;
 }
 
-.btn-post-config.on .icon:before {
+.btn-post-config.on .icon-angle-down:before {
     content: "\e60e";
 }
 
@@ -2803,8 +3540,8 @@ hr.ng-margin {
 }
 
 .post-config ul {
-    background-color: #f5f5f5;
-    border: 1px solid #dedede;
+    background-color: var(--bg-hover);
+    border: 1px solid var(--border-color);
     border-top: 0;
 }
 
@@ -2878,7 +3615,7 @@ hr.ng-margin {
     width: 70px;
     height: 1px;
     margin-bottom: 15px;
-    background-color: #ccc;
+    background-color: var(--border-dark);
 }
 
 .post-content h3:first-child {
@@ -2895,7 +3632,7 @@ hr.ng-margin {
 
 .post-content h5 {
     margin: 25px 0 0px;
-    color: #999;
+    color: var(--text-muted);
     font-size: 18px;
     font-weight: normal;
 }
@@ -3031,14 +3768,14 @@ hr.ng-margin {
 /* 트랙백(연관글) */
 .trackback {
     position: relative;
-    background-color: #fff;
+    background-color: var(--bg-content);
 }
 
 .tb-addr {
     margin-bottom: 10px;
     padding: 15px 10px;
     text-align: center;
-    border: 1px solid #dedede;
+    border: 1px solid var(--border-color);
 }
 
 .trackback-url {
@@ -3072,9 +3809,9 @@ hr.ng-margin {
     position: relative;
     margin-top: 1px;
     padding: 15px 10px;
-    border: 3px solid #fff;
-    background-color: #fafafa;
-    outline: 1px solid #dedede;
+    border: 3px solid var(--bg-content);
+    background-color: var(--bg-card);
+    outline: 1px solid var(--border-color);
 }
 
 @media (min-width: 992px) {
@@ -3092,7 +3829,7 @@ hr.ng-margin {
     position: absolute;
     left: 10px;
     top: 3px;
-    color: #ccc;
+    color: var(--border-dark);
     font-size: 30px;
     font-weight: bold;
     font-family: Helvetica, Arial, sans-serif;
@@ -3114,7 +3851,7 @@ hr.ng-margin {
 .tb-list .dt-published {
     margin-left: 3px;
     font-size: .9em;
-    color: #b3b3b3;
+    color: var(--text-muted);
     font-style: italic;
 }
 
@@ -3122,7 +3859,7 @@ hr.ng-margin {
     position: absolute;
     right: 5px;
     top: 5px;
-    color: #ccc;
+    color: var(--border-dark);
     font-size: 18px;
     cursor: pointer;
 }
@@ -3131,7 +3868,7 @@ hr.ng-margin {
     position: absolute;
     right: 10px;
     bottom: 10px;
-    color: #777;
+    color: var(--text-secondary);
     font-size: 12px;
 }
 
@@ -3160,8 +3897,8 @@ hr.ng-margin {
 
 .pagination .selected a {
     display: block;
-    color: #fff !important;
-    background-color: #81a9db;
+    color: var(--text-inverse) !important;
+    background-color: var(--color-primary);
     border-radius: 30px;
 }
 
@@ -3188,7 +3925,7 @@ hr.ng-margin {
     padding-left: 2px;
     padding-right: 2px;
     height: 35px;
-    color: #777;
+    color: var(--text-secondary);
     line-height: 35px;
     font-family: Helvetica;
 }
@@ -3280,7 +4017,7 @@ hr.ng-margin {
 .module-title span {
     position: relative;
     padding: 8px 10px 8px 0;
-    background-color: #f8f8f8;
+    background-color: var(--bg-sidebar);
     z-index: 2;
 }
 
@@ -3293,7 +4030,7 @@ hr.ng-margin {
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: #777;
+    background-color: var(--text-secondary);
     z-index: 1;
 }
 
@@ -3308,11 +4045,11 @@ hr.ng-margin {
     bottom: -15px;
     display: inline-block;
     margin: 0;
-    color: #fff;
+    color: var(--text-inverse);
     font-size: 10px;
     font-family: Helvetica, sans-serif;
     padding: 0 3px;
-    background-color: #777;
+    background-color: var(--text-secondary);
     border-radius: 3px;
 }
 
@@ -3336,14 +4073,14 @@ hr.ng-margin {
 .module-notice .module-title span {
     margin-left: 12px;
     padding: 0 5px;
-    border: 1px solid #777;
+    border: 1px solid var(--text-secondary);
 }
 
 .module-notice .module-content {
     margin-top: -12px;
     padding: 18px 10px 15px;
-    background-color: #eee;
-    border: 1px solid #777;
+    background-color: var(--bg-hover);
+    border: 1px solid var(--text-secondary);
 }
 
 #module-notice-ul {
@@ -3403,8 +4140,8 @@ hr.ng-margin {
 /* _카테고리 */
 .module-category .module-content {
     margin-top: 0;
-    border-top: 2px solid #555;
-    border-bottom: 1px solid #555;
+    border-top: 2px solid var(--text-primary);
+    border-bottom: 1px solid var(--text-primary);
 }
 
 .module-category li {
@@ -3413,7 +4150,7 @@ hr.ng-margin {
 
 .module-category li a {
     padding-left: 5px;
-    color: #555;
+    color: var(--text-primary);
     border-bottom: 0;
 }
 
@@ -3436,11 +4173,11 @@ hr.ng-margin {
 }
 
 .module-category .tt-ul-two>li>a {
-    border-top: 1px solid #999999;
+    border-top: 1px solid var(--text-muted);
 }
 
 .module-category .tt-ul-three li {
-    border-top: 1px dashed #e0e0e0;
+    border-top: 1px dashed var(--border-color);
 }
 
 .module-category .tt-ul-three a {

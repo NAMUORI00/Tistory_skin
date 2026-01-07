@@ -650,3 +650,48 @@
 	});
 
 }(jQuery));
+
+// ============================================================================
+// 다크모드 테마 토글
+// ============================================================================
+(function() {
+	'use strict';
+
+	const themeToggle = document.getElementById('theme-toggle');
+	const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+	// 테마 설정 함수
+	function setTheme(theme) {
+		document.documentElement.setAttribute('data-theme', theme);
+		localStorage.setItem('theme', theme);
+	}
+
+	// 저장된 테마 또는 시스템 설정에 따른 테마 반환
+	function getPreferredTheme() {
+		const saved = localStorage.getItem('theme');
+		if (saved) {
+			return saved;
+		}
+		return prefersDark.matches ? 'dark' : 'light';
+	}
+
+	// 초기 테마 설정 (페이지 로드 시)
+	setTheme(getPreferredTheme());
+
+	// 토글 버튼 클릭 이벤트
+	if (themeToggle) {
+		themeToggle.addEventListener('click', function() {
+			const current = document.documentElement.getAttribute('data-theme');
+			const newTheme = current === 'dark' ? 'light' : 'dark';
+			setTheme(newTheme);
+		});
+	}
+
+	// 시스템 테마 변경 감지
+	prefersDark.addEventListener('change', function(e) {
+		// 사용자가 수동으로 테마를 설정하지 않은 경우에만 시스템 설정 따름
+		if (!localStorage.getItem('theme')) {
+			setTheme(e.matches ? 'dark' : 'light');
+		}
+	});
+})();
