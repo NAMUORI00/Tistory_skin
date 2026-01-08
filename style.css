@@ -4137,6 +4137,27 @@ hr.ng-margin {
     border-radius: 0
 }
 
+/* 다크모드 NOTICE 영역 가독성 개선 */
+[data-theme="dark"] .module-notice a {
+    color: var(--text-heading);
+    font-weight: 500
+}
+
+[data-theme="dark"] .module-notice .btn-more {
+    background-color: #555
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .module-notice a {
+        color: var(--text-heading);
+        font-weight: 500
+    }
+
+    :root:not([data-theme="light"]) .module-notice .btn-more {
+        background-color: #555
+    }
+}
+
 /* _카테고리 */
 .module-category .module-content {
     margin-top: 0;
